@@ -1,0 +1,96 @@
+Paolo Tamagnini - 1536242
+Data Science - Algorithmic Methods of Data Mining
+Academic year 2015–2016 - December 21th 2015
+
+Project 3
+
+As expected, the project is divided in 2 parts, offline and online.
+I did the same splitting the .py files in 2 folders with same names.
+Leave the files there otherwise they won't find the data files in the main folder.
+
+Everything is highly commented in the files, so I will be brief.
+
+
+I used the 100k dataset.
+
+
+1) OFFLINE
+
+I used Collaborative Filtering Approach, User Based, with distances and prediction 
+as described during Chato lecture and in the slides on his websites. 
+I tried something different (Pearson similarities, weighted average, exc.. ) but it was decreasing my RMSE. 
+This way I got an RMSE = 0.969108563901
+
+Go in the folder 1_offline and run "python 1536242-offline.py"
+The script will:
+	
+	a) load the "u.data"
+
+	b) split the dataset in dataframes train and test
+
+	c) build matrixes out of the dataframes
+
+	d) calculate distances between users using the train
+
+	e) kind k nearest neghbours to each user
+
+	f) use the k neighbours to predict the missing ratings in train
+
+	g) calculate the RMSE comparing the prediction with the actual ratings in the test
+
+	h) print the RMSE
+
+The value k = 305 was found by iterating a cycle, changing k every time and saving the k for the best RMSE.
+
+2) ONLINE
+
+Go in the folder 2_online. 
+
+Run "python a)1536242-createNewUser.py".
+The script will ask you to rate the movies. I don't have any new user already done cause you are my new user.
+So please take some time to rate the 16 movies I have for you. 
+Please do not rate everything too high or too low. Rate 0 just if you haven't seen the movie. 
+The script will output "newUser.csv" with all your ratings. 
+Each time you run it the movie titles to rate will be displayed in a random sequence.
+
+Run "python b)1536242-testNewUser.py".
+The script will:
+
+	a) load both "u.data" and "u.item"
+
+	b) load "newUser.csv"
+
+	c) give to each movie a kind of genre between:
+	
+		- Easy
+		- Sweet
+		- Soft
+		- Other
+		- Complex
+
+
+	d) determine in which percentage the new user falls within each kind
+	   by counting how many rates above 4 for each kind and dividing them 
+	   by the number of not null rates.
+
+	e) determine the distance between the new user and every other user
+
+	f) determine the k closest neighbours to the new user
+
+	g) predict the ratings for every movie the new user rated 0 and for all 
+	   the movies that are not in the 16 ones of the survey
+
+	h) select all the predictions higher than 4.5
+
+	i) still too many: select a number of them chosen by you by running the file.
+	   The selection will be so that:
+
+		- the movies will be picked from the most rated to the less rated
+		- the amount of movies of each kind will be proportional to the percentage
+		  found with the survey
+	
+	l) print the recommendation and output the list of titles in the file 'recommendedMovies.txt'
+
+Keep in mind that the algorithm is not trying to guess what else you have seen already given the ratings u did.
+That means that most likely is going to advice you movies you have already seen.
+If you did and you liked them, I guess it would be still a success.
